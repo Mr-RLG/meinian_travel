@@ -9,10 +9,10 @@ import java.io.InputStream;
  * 阿里雲oos工具類
  */
 public class AliyunUtil {
-    private static String endpoint = "https://oss-cn-hangzhou.aliyuncs.com";
+    private static String endpoint = "用自己的";
     // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
-    private static String accessKeyId = "LTAI5t8gV1LVrXmdnxARezY3";
-    private static String accessKeySecret = "L4a8GSCrM7TKCFKmYZ07A8Vb0Y4h51";
+    private static String accessKeyId = "用自己的";
+    private static String accessKeySecret = "用自己的";
     // 填写Bucket名称。
     private static String bucketName = "meinian-rlg";
 
