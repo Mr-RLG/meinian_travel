@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rlg.dao.SetmealDao">
+
+<!--    void add(Setmeal setmeal);-->
+    <insert id="add" parameterType="setmeal" useGeneratedKeys="true" keyProperty="id">
+        insert into t_setmeal(name,code,helpCode,sex,age,price,remark,attention,img)
+        values(#{name}, #{code}, #{helpCode}, #{sex}, #{age}, #{price}, #{remark}, #{attention}, #{img})
+    </insert>
+
+<!--    void setSetmealAndTravelGroup(HashMap<String, Integer> map);-->
+    <insert id="setSetmealAndTravelGroup" parameterType="map">
+        insert into t_setmeal_travelgroup(setmeal_id,travelgroup_id) values (#{setmeal_id},#{travelgroup_id})
+    </insert>
+
+<!--    Page<Setmeal> findPage(String queryString);-->
+    <select id="findPage" resultType="setmeal" parameterType="string">
+        select * from t_setmeal
+        <where>
+            <if test="value != null and value.length > 0">
+                code = #{code} or name like concat("%",#{value},"%")
+                or helpCode like concat("%",#{value]},"%")
+            </if>
+        </where>
+
+    </select>
+
+<!--    List<Setmeal> getSetmeal();-->
+    <select id="getSetmeal" resultType="setmeal">
+        select  * from t_setmeal
+    </select>
+
+    <resultMap id="findByIdResultMap" type="setmeal">
+        <id column="id" property="id"></id>
+        <id column="name" property="name" ></id>
+        <id column="code" property="code" ></id>
+        <id column="helpCode" property="helpCode" ></id>
+        <id column="sex" property="sex" ></id>
+        <id column="age" property="age" ></id>
+        <id column="price" property="price" ></id>
+        <id column="remark" property="remark" ></id>
+        <id column="attention" property="attention" ></id>
+        <id column="img" property="img" ></id>
+        <collection property="travelGroups" column="id" select="com.rlg.dao.TravelGroupDao.findTravelGroupListById"></collection>
+    </resultMap>
+
+<!--    Setmeal findById(Integer id);-->
+    <select id="findById" parameterType="integer" resultMap="findByIdResultMap">
+
+        select * from t_setmeal where id = #{id}
+
+    </select>
+
+<!--    Setmeal getSetmealById(Integer id);-->
+    <select id="getSetmealById" resultType="setmeal" parameterType="int">
+        select * from t_setmeal where id = #{id}
+    </select>
+
+<!--    List<Map<String, Object>> findSetmealCount();-->
+    <select id="findSetmealCount" resultType="map">
+        select s.name name, count(*) value
+        from t_setmeal s,t_order o
+        where s.id = o.setmeal_id
+        GROUP BY s.`name`
+    </select>
+</mapper>

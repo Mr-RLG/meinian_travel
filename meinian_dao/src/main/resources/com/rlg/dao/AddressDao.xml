@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rlg.dao.AddressDao">
+
+<!--    List<Address> findAllMaps();-->
+    <select id="findAllMaps" resultType="address">
+        select * from t_address
+    </select>
+
+<!--    Page<Address> findPage(String queryString);-->
+    <select id="findPage" resultType="address" parameterType="string">
+        select * from t_address
+        <if test="value != null and value.length > 0">
+            where addressName like concat("%",#{value},"%")
+        </if>
+    </select>
+
+<!--    v    void deleteById(Integer id);-->
+    <delete id="deleteById">
+        delete from t_address where id = #{id}
+    </delete>
+
+<!--    void addAddress(Map map);-->
+    <insert id="addAddress" parameterType="map">
+        insert into t_address(AddressName,lng,lat) values (#{addressName},#{lng},#{lat})
+    </insert>
+</mapper>
